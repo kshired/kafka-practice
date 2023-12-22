@@ -2,17 +2,14 @@ package com.example.kafka.producer
 
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.kafka.clients.producer.RecordMetadata
 import org.slf4j.LoggerFactory
-import java.util.Properties
 
 class SimpleProducerAsync(
-    private val props: Properties
+    private val kafkaProducer: KafkaProducer<String, String>
 ) : Producer<String, String> {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun send(topic: String, key: String, value: String) {
-        val kafkaProducer = KafkaProducer<String, String>(props)
         val produceRecord = ProducerRecord(topic, key, value)
 
         kafkaProducer.send(produceRecord) { metadata, exception ->
