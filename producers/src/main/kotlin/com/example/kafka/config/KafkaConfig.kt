@@ -16,6 +16,15 @@ class KafkaConfig {
         return KafkaProducer(props)
     }
 
+    fun integerStringProducer(): KafkaProducer<Int, String> {
+        val props = Properties().also {
+            it[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = BOOTSTRAP_SERVERS
+            it[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = IntegerSerializer::class.java.name
+            it[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java.name
+        }
+        return KafkaProducer(props)
+    }
+
     companion object {
         private const val BOOTSTRAP_SERVERS = "192.168.56.101:9092"
     }
