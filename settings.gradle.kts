@@ -3,6 +3,7 @@ rootProject.name = "kafka"
 include(
     "producers",
     "consumers",
+    "common",
     // "practice"
 )
 
