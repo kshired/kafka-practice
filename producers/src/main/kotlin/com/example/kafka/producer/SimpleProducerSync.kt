@@ -20,7 +20,5 @@ class SimpleProducerSync(
 
         kafkaProducer.flush()
         kafkaProducer.close()
-        kafkaProducer.flush()
-        kafkaProducer.close()
     }
 }
