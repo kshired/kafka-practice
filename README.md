@@ -9,3 +9,6 @@
 
 ### Consumer
 - kafka consumer의 역할과 동작을 확인하기 위한 예제
+
+### Common
+- 다른 모듈에서 공통으로 사용하는 클래스를 정의한 모듈
