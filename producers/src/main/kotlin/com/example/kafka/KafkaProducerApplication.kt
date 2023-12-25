@@ -24,4 +24,7 @@ fun main() {
 
     val pizzaProducer = PizzaProducer(config.simpleProducer())
     pizzaProducer.sendPizzaMessage("pizza-topic", -1, 10, 100, 100,true)
+
+    val customPartitionerPizzaProducer = PizzaProducer(config.customPartitionerProducer())
+    customPartitionerPizzaProducer.sendPizzaMessage("pizza-topic-partitioner", -1, 10, 100, 100,true)
 }
