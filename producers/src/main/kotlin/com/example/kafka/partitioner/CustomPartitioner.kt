@@ -1,12 +1,12 @@
 package com.example.kafka.partitioner
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.producer.Partitioner
 import org.apache.kafka.common.Cluster
 import org.apache.kafka.common.utils.Utils
-import org.slf4j.LoggerFactory
 
 class CustomPartitioner : Partitioner {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger = KotlinLogging.logger {}
     private lateinit var specialKeyName: String
 
     override fun configure(configs: MutableMap<String, *>) {
@@ -14,7 +14,7 @@ class CustomPartitioner : Partitioner {
     }
 
     override fun close() {
-        logger.info("Closing partitioner")
+        logger.info { "Closing partitioner" }
     }
 
     override fun partition(
@@ -37,7 +37,7 @@ class CustomPartitioner : Partitioner {
             Utils.toPositive(Utils.murmur2(keyBytes)) % (partitionSize - specialPartitionSize) + specialPartitionSize
         }
 
-        logger.info("key : $key, value : $value, partitionIdx : $partitionIdx")
+        logger.info { "key : $key, value : $value, partitionIdx : $partitionIdx" }
 
         return partitionIdx
     }

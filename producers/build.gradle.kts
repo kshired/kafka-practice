@@ -3,5 +3,5 @@ tasks.getByName("jar") {
 }
 
 dependencies {
-    implementation("com.github.javafaker:javafaker:1.0.2")
+    implementation("com.github.javafaker:javafaker:${property("javaFakerVersion")}")
 }

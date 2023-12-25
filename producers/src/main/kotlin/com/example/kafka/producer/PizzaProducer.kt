@@ -2,15 +2,15 @@ package com.example.kafka.producer
 
 import com.example.kafka.message.PizzaMessage
 import com.github.javafaker.Faker
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.slf4j.LoggerFactory
 import java.util.Random
 
 class PizzaProducer(
     private val kafkaProducer: KafkaProducer<String, String>
 ) : Producer<String, String> {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger = KotlinLogging.logger {}
 
     fun sendPizzaMessage(
         topic: String,
@@ -36,12 +36,12 @@ class PizzaProducer(
             }
 
             if (intervalCount > 0 && iterSeq % intervalCount == 0) {
-                logger.info("InteveralCount : $intervalCount, intervalMillis : $intervalMillis")
+                logger.info { "InteveralCount : $intervalCount, intervalMillis : $intervalMillis" }
                 Thread.sleep(intervalMillis.toLong())
             }
 
             if (interIntervalMillis > 0) {
-                logger.info("interIntervalMillis : $intervalMillis")
+                logger.info { "interIntervalMillis : $intervalMillis" }
                 Thread.sleep(intervalMillis.toLong())
             }
 
@@ -57,9 +57,9 @@ class PizzaProducer(
 
         runCatching {
             val recordMetadata = kafkaProducer.send(produceRecord).get()
-            logger.info("Record async sent to partition ${recordMetadata.partition()} with offset ${recordMetadata.offset()} at timestamp ${recordMetadata.timestamp()}")
+            logger.info { "Record async sent to partition ${recordMetadata.partition()} with offset ${recordMetadata.offset()} at timestamp ${recordMetadata.timestamp()}" }
         }.onFailure {
-            logger.error("Error sending record", it)
+            logger.error(it) { "Error sending record" }
         }
     }
 
@@ -69,9 +69,9 @@ class PizzaProducer(
 
         kafkaProducer.send(produceRecord) { metadata, exception ->
             if (exception != null) {
-                logger.error("Error sending record")
+                logger.error(exception) { "Error sending record" }
             } else {
-                logger.info("Record sync sent to partition ${metadata?.partition()} with offset ${metadata?.offset()} at timestamp ${metadata?.timestamp()}")
+                logger.info { "Record sync sent to partition ${metadata?.partition()} with offset ${metadata?.offset()} at timestamp ${metadata?.timestamp()}" }
             }
         }
     }

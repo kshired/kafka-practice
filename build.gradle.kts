@@ -22,9 +22,8 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
     dependencies {
-        implementation("org.apache.kafka:kafka-clients:3.1.0")
-        implementation("org.slf4j:slf4j-api:1.7.36")
-        implementation("org.slf4j:slf4j-simple:1.7.36")
+        implementation("org.apache.kafka:kafka-clients:${property("kafkaClientsVersion")}")
+        implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlinLoggingVersion")}")
     }
 
     tasks.getByName("jar") {
