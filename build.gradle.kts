@@ -23,6 +23,7 @@ subprojects {
 
     dependencies {
         implementation("org.apache.kafka:kafka-clients:${property("kafkaClientsVersion")}")
+        implementation("org.slf4j:slf4j-simple:${property("slf4jVersion")}")
         implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlinLoggingVersion")}")
     }
 
