@@ -6,6 +6,7 @@ import com.example.kafka.producer.PizzaProducer
 import com.example.kafka.producer.SimpleProducer
 import com.example.kafka.producer.SimpleProducerAsync
 import com.example.kafka.producer.SimpleProducerSync
+import kotlin.time.Duration.Companion.milliseconds
 
 fun main() {
     val config = KafkaConfig()
@@ -23,8 +24,15 @@ fun main() {
     integerStringProducerAsync.send("welcome-topic", 1, "value")
 
     val pizzaProducer = PizzaProducer(config.simpleProducer())
-    pizzaProducer.sendPizzaMessage("pizza-topic", -1, 10, 100, 100,true)
+    pizzaProducer.sendPizzaMessage("pizza-topic", -1, 10.milliseconds, 100.milliseconds, 100, true)
 
     val customPartitionerPizzaProducer = PizzaProducer(config.customPartitionerProducer())
-    customPartitionerPizzaProducer.sendPizzaMessage("pizza-topic-partitioner", -1, 10, 100, 100,true)
+    customPartitionerPizzaProducer.sendPizzaMessage(
+        "pizza-topic-partitioner",
+        -1,
+        10.milliseconds,
+        100.milliseconds,
+        100,
+        true
+    )
 }

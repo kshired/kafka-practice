@@ -9,9 +9,9 @@ class KafkaConfig {
     fun simpleConsumer(
         groupId: String = "group_01",
         staticInstanceId: String? = null,
-        heartBeatIntervalMs: Duration? = null,
-        sessionTimeoutMs: Duration? = null,
-        maxPollIntervalMs: Duration? = null
+        heartBeatInterval: Duration? = null,
+        sessionTimeout: Duration? = null,
+        maxPollInterval: Duration? = null
     ) : KafkaConsumer<String, String> {
         val props = PropertiesBuilder()
             .bootStrapServer(BOOTSTRAP_SERVERS)
@@ -22,13 +22,13 @@ class KafkaConfig {
                 staticInstanceId?.let {
                     groupInstanceIdConfig(it)
                 }
-                heartBeatIntervalMs?.let {
+                heartBeatInterval?.let {
                     this.heartBeatIntervalMsConfig(it.inWholeMilliseconds.toString())
                 }
-                sessionTimeoutMs?.let {
+                sessionTimeout?.let {
                     this.sessionTimeoutMsConfig(it.inWholeMilliseconds.toString())
                 }
-                maxPollIntervalMs?.let {
+                maxPollInterval?.let {
                     this.maxPollIntervalMsConfig(it.inWholeMilliseconds.toString())
                 }
             }.build()

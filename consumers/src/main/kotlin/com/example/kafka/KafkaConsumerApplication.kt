@@ -14,9 +14,9 @@ fun main() {
 
     val simpleConsumerForCheckingHeartBeat = SimpleConsumer(
         config.simpleConsumer(
-            heartBeatIntervalMs = 5.seconds,
-            sessionTimeoutMs = 90.seconds,
-            maxPollIntervalMs = 10.minutes
+            heartBeatInterval = 5.seconds,
+            sessionTimeout = 90.seconds,
+            maxPollInterval = 10.minutes
         )
     )
     simpleConsumerForCheckingHeartBeat.consume("simple-topic", shutDownGracefully = false)
@@ -24,7 +24,7 @@ fun main() {
     val simpleConsumerWithSleep = SimpleConsumerWithSleep(
         config.simpleConsumer(
             groupId = "group_02",
-            maxPollIntervalMs = 2.seconds
+            maxPollInterval = 2.seconds
         )
     )
     simpleConsumerWithSleep.consume("pizza-topic")

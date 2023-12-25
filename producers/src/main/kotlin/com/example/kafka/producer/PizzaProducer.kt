@@ -6,6 +6,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.Random
+import kotlin.time.Duration
 
 class PizzaProducer(
     private val kafkaProducer: KafkaProducer<String, String>
@@ -15,8 +16,8 @@ class PizzaProducer(
     fun sendPizzaMessage(
         topic: String,
         iterCount: Int,
-        interIntervalMillis: Int,
-        intervalMillis: Int,
+        interInterval: Duration,
+        interval: Duration,
         intervalCount: Int,
         sync: Boolean
     ) {
@@ -36,13 +37,13 @@ class PizzaProducer(
             }
 
             if (intervalCount > 0 && iterSeq % intervalCount == 0) {
-                logger.info { "InteveralCount : $intervalCount, intervalMillis : $intervalMillis" }
-                Thread.sleep(intervalMillis.toLong())
+                logger.info { "IntervalCount : $intervalCount, intervalMillis : ${interval.inWholeMilliseconds}" }
+                Thread.sleep(interval.inWholeMilliseconds)
             }
 
-            if (interIntervalMillis > 0) {
-                logger.info { "interIntervalMillis : $interIntervalMillis" }
-                Thread.sleep(interIntervalMillis.toLong())
+            if (interInterval > Duration.ZERO) {
+                logger.info { "interIntervalMillis : ${interInterval.inWholeMilliseconds}" }
+                Thread.sleep(interInterval.inWholeMilliseconds)
             }
 
             iterSeq++
