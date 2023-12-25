@@ -15,7 +15,7 @@ class SimpleProducerSync(
             val recordMetadata = kafkaProducer.send(produceRecord).get()
             logger.info { "Record sent to partition ${recordMetadata.partition()} with offset ${recordMetadata.offset()} at timestamp ${recordMetadata.timestamp()}" }
         }.onFailure {
-            logger.error(it) { "${"Error sending record"}" }
+            logger.error(it) { "Error sending record" }
         }
 
         kafkaProducer.flush()
