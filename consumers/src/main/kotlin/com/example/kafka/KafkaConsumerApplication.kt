@@ -10,7 +10,7 @@ fun main() {
     val config = KafkaConfig()
 
     val simpleConsumer = SimpleConsumer(config.simpleConsumer())
-    simpleConsumer.consume("simple-topic")
+    simpleConsumer.consume(listOf("simple-topic"))
 
     val simpleConsumerForCheckingHeartBeat = SimpleConsumer(
         config.simpleConsumer(
@@ -19,7 +19,7 @@ fun main() {
             maxPollInterval = 10.minutes
         )
     )
-    simpleConsumerForCheckingHeartBeat.consume("simple-topic", shutDownGracefully = false)
+    simpleConsumerForCheckingHeartBeat.consume(listOf("simple-topic"), shutDownGracefully = false)
 
     val simpleConsumerWithSleep = SimpleConsumerWithSleep(
         config.simpleConsumer(
@@ -27,5 +27,8 @@ fun main() {
             maxPollInterval = 2.seconds
         )
     )
-    simpleConsumerWithSleep.consume("pizza-topic")
+    simpleConsumerWithSleep.consume(listOf("pizza-topic"))
+
+    val simpleConsumerWithMultiTopic = SimpleConsumer(config.simpleConsumer(groupId = "group_mtopic"))
+    simpleConsumerWithMultiTopic.consume(listOf("topic-p3-t1", "topic-p3-t2"))
 }
