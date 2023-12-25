@@ -31,6 +31,7 @@ abstract class Consumer<T, U>(
                 else -> logger.error("Error occurred while consuming messages", it)
             }
         }.also {
+            logger.info("Closing ${javaClass.simpleName}")
             kafkaConsumer.close()
         }
     }
