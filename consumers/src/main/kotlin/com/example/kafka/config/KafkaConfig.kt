@@ -20,6 +20,25 @@ class KafkaConfig {
         return KafkaConsumer(props)
     }
 
+    fun simpleConsumerForCheckingHeartBeat(
+        groupId: String = "group_01",
+        heartBeatIntervalMs: String,
+        sessionTimeoutMs: String,
+        maxPollIntervalMs: String
+    ) : KafkaConsumer<String, String> {
+        val props = PropertiesBuilder()
+            .bootStrapServer(BOOTSTRAP_SERVERS)
+            .keyDeserializerClass(StringDeserializer::class.java.name)
+            .valueDeserializerClass(StringDeserializer::class.java.name)
+            .groupIdConfig(groupId)
+            .heartBeatIntervalMsConfig(heartBeatIntervalMs)
+            .sessionTimeoutMsConfig(sessionTimeoutMs)
+            .maxPollIntervalMsConfig(maxPollIntervalMs)
+            .build()
+
+        return KafkaConsumer(props)
+    }
+
     companion object {
         private const val BOOTSTRAP_SERVERS = "192.168.56.101:9092"
     }

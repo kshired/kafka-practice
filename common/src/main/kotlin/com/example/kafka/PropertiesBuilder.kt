@@ -13,6 +13,9 @@ class PropertiesBuilder {
     private var groupIdConfig: String? = null
     private var partitionerClassConfig: String? = null
     private var groupInstanceIdConfig: String? = null
+    private var heartBeatIntervalMsConfig: String? = null
+    private var sessionTimeoutMsConfig: String? = null
+    private var maxPollIntervalMsConfig: String? = null
     private var customConfig: Map<String, String> = emptyMap()
 
     fun bootStrapServer(bootStrapServer: String) = apply {
@@ -47,6 +50,18 @@ class PropertiesBuilder {
         this.groupInstanceIdConfig = groupInstanceIdConfig
     }
 
+    fun heartBeatIntervalMsConfig(heartBeatIntervalMsConfig: String) = apply {
+        this.heartBeatIntervalMsConfig = heartBeatIntervalMsConfig
+    }
+
+    fun sessionTimeoutMsConfig(sessionTimeoutMsConfig: String) = apply {
+        this.sessionTimeoutMsConfig = sessionTimeoutMsConfig
+    }
+
+    fun maxPollIntervalMsConfig(maxPollIntervalMsConfig: String) = apply {
+        this.maxPollIntervalMsConfig = maxPollIntervalMsConfig
+    }
+
     fun addCustomConfig(key: String, value: String) = apply {
         this.customConfig = customConfig.plus(Pair(key, value))
     }
@@ -77,6 +92,15 @@ class PropertiesBuilder {
             }
             groupInstanceIdConfig?.let { groupInstanceIdConfig ->
                 it[ConsumerConfig.GROUP_INSTANCE_ID_CONFIG] = groupInstanceIdConfig
+            }
+            heartBeatIntervalMsConfig?.let { heartBeatIntervalMsConfig ->
+                it[ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG] = heartBeatIntervalMsConfig
+            }
+            sessionTimeoutMsConfig?.let { sessionTimeoutMsConfig ->
+                it[ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG] = sessionTimeoutMsConfig
+            }
+            maxPollIntervalMsConfig?.let { maxPollIntervalMsConfig ->
+                it[ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG] = maxPollIntervalMsConfig
             }
             customConfig.forEach { (key, value) ->
                 it[key] = value

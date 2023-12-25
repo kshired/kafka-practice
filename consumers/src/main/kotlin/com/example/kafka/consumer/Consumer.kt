@@ -11,13 +11,19 @@ abstract class Consumer<T, U>(
 ) {
     private val logger = KotlinLogging.logger {}
 
-    fun consume(topic: String, partition: Int? = null) {
+    fun consume(
+        topic: String,
+        shutDownGracefully: Boolean = true,
+        partition: Int? = null
+    ) {
         partition?.let {
             kafkaConsumer.assign(listOf(TopicPartition(topic, it)))
         } ?: run {
             kafkaConsumer.subscribe(listOf(topic))
         }
-        setUpShutDownHook()
+        if (shutDownGracefully) {
+            setUpShutDownHook()
+        }
         consume()
     }
 
