@@ -11,8 +11,12 @@ abstract class Consumer<T, U>(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    fun consume(topic: String, partition: Int = 0) {
-        kafkaConsumer.assign(listOf(TopicPartition(topic, partition)))
+    fun consume(topic: String, partition: Int? = null) {
+        partition?.let {
+            kafkaConsumer.assign(listOf(TopicPartition(topic, it)))
+        } ?: run {
+            kafkaConsumer.subscribe(listOf(topic))
+        }
         setUpShutDownHook()
         consume()
     }
