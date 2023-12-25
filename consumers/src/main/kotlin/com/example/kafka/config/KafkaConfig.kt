@@ -6,12 +6,15 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import java.util.Properties
 
 class KafkaConfig {
-    fun simpleConsumer(groupId: String = "group_01") : KafkaConsumer<String, String> {
+    fun simpleConsumer(groupId: String = "group_01", staticInstanceId: String? = null) : KafkaConsumer<String, String> {
         val props = Properties().also {
             it[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = BOOTSTRAP_SERVERS
             it[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java.name
             it[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java.name
             it[ConsumerConfig.GROUP_ID_CONFIG] = groupId
+            staticInstanceId?.let { instanceId ->
+                it[ConsumerConfig.GROUP_INSTANCE_ID_CONFIG] = instanceId
+            }
         }
 
         return KafkaConsumer(props)
