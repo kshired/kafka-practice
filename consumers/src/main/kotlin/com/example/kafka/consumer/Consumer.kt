@@ -22,7 +22,7 @@ abstract class Consumer<T, U>(
             while (true) {
                 val records = kafkaConsumer.poll(Duration.ofMillis(1000))
                 records.forEach {
-                    logger.info("key : ${it.key()}, value : ${it.value()}, partition : ${it.partition()}")
+                    logger.info("key : ${it.key()}, value : ${it.value()}, partition : ${it.partition()}, offset : ${it.offset()}")
                 }
             }
         }.onFailure {
