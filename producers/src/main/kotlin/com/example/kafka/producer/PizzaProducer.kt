@@ -41,8 +41,8 @@ class PizzaProducer(
             }
 
             if (interIntervalMillis > 0) {
-                logger.info { "interIntervalMillis : $intervalMillis" }
-                Thread.sleep(intervalMillis.toLong())
+                logger.info { "interIntervalMillis : $interIntervalMillis" }
+                Thread.sleep(interIntervalMillis.toLong())
             }
 
             iterSeq++
