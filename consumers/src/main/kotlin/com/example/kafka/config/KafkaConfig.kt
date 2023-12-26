@@ -2,6 +2,7 @@ package com.example.kafka.config
 
 import com.example.kafka.PropertiesBuilder
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.consumer.RangeAssignor
 import org.apache.kafka.common.serialization.StringDeserializer
 import kotlin.time.Duration
 
@@ -11,13 +12,15 @@ class KafkaConfig {
         staticInstanceId: String? = null,
         heartBeatInterval: Duration? = null,
         sessionTimeout: Duration? = null,
-        maxPollInterval: Duration? = null
+        maxPollInterval: Duration? = null,
+        partitionAssignmentStrategy: String = RangeAssignor::class.java.name
     ) : KafkaConsumer<String, String> {
         val props = PropertiesBuilder()
             .bootStrapServer(BOOTSTRAP_SERVERS)
             .keyDeserializerClass(StringDeserializer::class.java.name)
             .valueDeserializerClass(StringDeserializer::class.java.name)
             .groupIdConfig(groupId)
+            .partitionAssignmentStrategy(partitionAssignmentStrategy)
             .apply {
                 staticInstanceId?.let {
                     groupInstanceIdConfig(it)

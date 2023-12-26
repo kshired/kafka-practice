@@ -16,6 +16,7 @@ class PropertiesBuilder {
     private var heartBeatIntervalMsConfig: String? = null
     private var sessionTimeoutMsConfig: String? = null
     private var maxPollIntervalMsConfig: String? = null
+    private var partitionAssignmentStrategy: String? = null
     private var customConfig: Map<String, String> = emptyMap()
 
     fun bootStrapServer(bootStrapServer: String) = apply {
@@ -62,6 +63,10 @@ class PropertiesBuilder {
         this.maxPollIntervalMsConfig = maxPollIntervalMsConfig
     }
 
+    fun partitionAssignmentStrategy(partitionAssignmentStrategy: String) = apply {
+        this.partitionAssignmentStrategy = partitionAssignmentStrategy
+    }
+
     fun addCustomConfig(key: String, value: String) = apply {
         this.customConfig = customConfig.plus(Pair(key, value))
     }
@@ -101,6 +106,9 @@ class PropertiesBuilder {
             }
             maxPollIntervalMsConfig?.let { maxPollIntervalMsConfig ->
                 it[ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG] = maxPollIntervalMsConfig
+            }
+            partitionAssignmentStrategy?.let { partitionAssignmentStrategy ->
+                it[ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG] = partitionAssignmentStrategy
             }
             customConfig.forEach { (key, value) ->
                 it[key] = value

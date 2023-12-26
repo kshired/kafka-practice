@@ -3,6 +3,7 @@ package com.example.kafka
 import com.example.kafka.config.KafkaConfig
 import com.example.kafka.consumer.SimpleConsumer
 import com.example.kafka.consumer.SimpleConsumerWithSleep
+import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -29,6 +30,11 @@ fun main() {
     )
     simpleConsumerWithSleep.consume(listOf("pizza-topic"))
 
-    val simpleConsumerWithMultiTopic = SimpleConsumer(config.simpleConsumer(groupId = "group_mtopic"))
+    val simpleConsumerWithMultiTopic = SimpleConsumer(
+        config.simpleConsumer(
+            groupId = "group-assign",
+            partitionAssignmentStrategy = CooperativeStickyAssignor::class.java.name
+        )
+    )
     simpleConsumerWithMultiTopic.consume(listOf("topic-p3-t1", "topic-p3-t2"))
 }
