@@ -4,7 +4,7 @@ include(
     "producers",
     "consumers",
     "common",
-    // "practice"
+    "practice"
 )
 
 pluginManagement {
