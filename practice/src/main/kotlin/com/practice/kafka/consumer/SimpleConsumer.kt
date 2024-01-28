@@ -9,8 +9,10 @@ class SimpleConsumer(
     private val logger = KotlinLogging.logger {}
 
     override fun consume(topics: List<String>) {
-        consume(topics) {
-            logger.info { "key : ${it.key()}, value : ${it.value()}, partition : ${it.partition()}, offset : ${it.offset()}" }
+        consume(topics) { records ->
+            records.forEach {
+                logger.info { "key : ${it.key()}, value : ${it.value()}, partition : ${it.partition()}, offset : ${it.offset()}" }
+            }
         }
     }
 }

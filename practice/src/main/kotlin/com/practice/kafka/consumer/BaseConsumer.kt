@@ -1,7 +1,7 @@
 package com.practice.kafka.consumer
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.errors.WakeupException
 import java.time.Duration
@@ -16,20 +16,18 @@ abstract class BaseConsumer<T, U>(
 
     protected fun consume(
         topics: List<String>,
-        callBack: (ConsumerRecord<T, U>) -> Unit
+        callBack: (ConsumerRecords<T, U>) -> Unit
     ) {
         kafkaConsumer.subscribe(topics)
         setUpShutDownHook()
         consume(callBack)
     }
 
-    private fun consume(callBack: (ConsumerRecord<T, U>) -> Unit) {
+    private fun consume(callBack: (ConsumerRecords<T, U>) -> Unit) {
         runCatching {
             while (true) {
                 val records = kafkaConsumer.poll(Duration.ofMillis(1000))
-                records.forEach {
-                    callBack(it)
-                }
+                callBack(records)
                 if (records.count() > 0) {
                     if (commitSync) {
                         commitSync()
