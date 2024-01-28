@@ -5,4 +5,7 @@ import com.practice.kafka.config.KafkaConfig
 fun main() {
     val fileProducer = FileProducer(KafkaConfig().simpleProducer())
     fileProducer.produce()
+
+    val fileAppendProducer = FileAppendProducer(KafkaConfig().simpleProducer())
+    fileAppendProducer.produce()
 }
