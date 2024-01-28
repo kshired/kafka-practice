@@ -65,6 +65,7 @@ class OrderRepositoryImpl : OrderRepository {
         runCatching {
             preparedStatement.close()
             connection.close()
+            logger.info { "Successfully closed connection" }
         }.onFailure {
             logger.error(it) { it.message }
         }
