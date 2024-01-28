@@ -57,4 +57,12 @@ fun main() {
         )
     )
     simpleConsumerSpecificPartition.consume(listOf("pizza-topic"), partition = 0)
+
+    val simpleConsumerSpecificPartitionAndOffset = SimpleConsumerWithSleepManualCommitAsync(
+        config.simpleConsumer(
+            groupId = "group_pizza_assign_seek_offset",
+            enableAutoCommit = false
+        )
+    )
+    simpleConsumerSpecificPartitionAndOffset.consume(listOf("pizza-topic"), partition = 0, offset = 10L)
 }

@@ -14,10 +14,17 @@ abstract class Consumer<T, U>(
     fun consume(
         topics: List<String>,
         shutDownGracefully: Boolean = true,
-        partition: Int? = null
+        partition: Int? = null,
+        offset: Long? = null
     ) {
         partition?.let {
-            kafkaConsumer.assign(topics.map { TopicPartition(it, partition) })
+            if (topics.size != 1) {
+                throw IllegalArgumentException("partition is not null, but topics size is not 1")
+            }
+            kafkaConsumer.assign(listOf(TopicPartition(topics[0], partition)))
+            if (offset != null) {
+                kafkaConsumer.seek(TopicPartition(topics[0], partition), offset)
+            }
         } ?: run {
             kafkaConsumer.subscribe(topics)
         }
