@@ -49,4 +49,12 @@ fun main() {
         config.simpleConsumer(enableAutoCommit = false)
     )
     simpleConsumerWithSleepManualCommitAsync.consume(listOf("pizza-topic"))
+
+    val simpleConsumerSpecificPartition = SimpleConsumerWithSleepManualCommitAsync(
+        config.simpleConsumer(
+            groupId = "group_pizza_assig_seek",
+            enableAutoCommit = false
+        )
+    )
+    simpleConsumerSpecificPartition.consume(listOf("pizza-topic"), partition = 0)
 }
