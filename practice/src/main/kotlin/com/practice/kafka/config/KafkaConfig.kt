@@ -1,6 +1,7 @@
 package com.practice.kafka.config
 
 import com.example.kafka.PropertiesBuilder
+import com.practice.kafka.order.Order
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringDeserializer
@@ -21,11 +22,34 @@ class KafkaConfig {
         return KafkaConsumer(props)
     }
 
+    fun orderDeserializerConsumer(
+        groupId: String = "group_01"
+    ) : KafkaConsumer<String, Order> {
+        val props = PropertiesBuilder()
+            .bootStrapServer(BOOTSTRAP_SERVERS)
+            .keyDeserializerClass(StringDeserializer::class.java.name)
+            .valueDeserializerClass(OrderDeserializer::class.java.name)
+            .groupIdConfig(groupId)
+            .enableAutoCommit(false)
+            .build()
+
+        return KafkaConsumer(props)
+    }
+
     fun simpleProducer(): KafkaProducer<String, String> {
         val props = PropertiesBuilder()
             .bootStrapServer(BOOTSTRAP_SERVERS)
             .keySerializerClass(StringSerializer::class.java.name)
             .valueSerializerClass(StringSerializer::class.java.name)
+            .build()
+        return KafkaProducer(props)
+    }
+
+    fun orderSerializerProducer(): KafkaProducer<String, Order> {
+        val props = PropertiesBuilder()
+            .bootStrapServer(BOOTSTRAP_SERVERS)
+            .keySerializerClass(StringSerializer::class.java.name)
+            .valueSerializerClass(OrderSerializer::class.java.name)
             .build()
         return KafkaProducer(props)
     }
