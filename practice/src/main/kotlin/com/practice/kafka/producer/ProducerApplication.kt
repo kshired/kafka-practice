@@ -8,4 +8,7 @@ fun main() {
 
     val fileAppendProducer = FileAppendProducer(KafkaConfig().simpleProducer())
     fileAppendProducer.produce()
+
+    val fileAppendSerializeProducer = FileAppendSerializeProducer(KafkaConfig().orderSerializerProducer())
+    fileAppendSerializeProducer.produce()
 }
