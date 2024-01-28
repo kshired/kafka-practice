@@ -3,6 +3,8 @@ package com.example.kafka
 import com.example.kafka.config.KafkaConfig
 import com.example.kafka.consumer.SimpleConsumer
 import com.example.kafka.consumer.SimpleConsumerWithSleep
+import com.example.kafka.consumer.SimpleConsumerWithSleepManualCommitAsync
+import com.example.kafka.consumer.SimpleConsumerWithSleepManualCommitSync
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -37,4 +39,14 @@ fun main() {
         )
     )
     simpleConsumerWithMultiTopic.consume(listOf("topic-p3-t1", "topic-p3-t2"))
+
+    val simpleConsumerWithSleepManualCommitSync = SimpleConsumerWithSleepManualCommitSync(
+        config.simpleConsumer(enableAutoCommit = false)
+    )
+    simpleConsumerWithSleepManualCommitSync.consume(listOf("pizza-topic"))
+
+    val simpleConsumerWithSleepManualCommitAsync = SimpleConsumerWithSleepManualCommitAsync(
+        config.simpleConsumer(enableAutoCommit = false)
+    )
+    simpleConsumerWithSleepManualCommitAsync.consume(listOf("pizza-topic"))
 }
