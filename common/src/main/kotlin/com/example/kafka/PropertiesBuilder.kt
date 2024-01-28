@@ -67,6 +67,14 @@ class PropertiesBuilder {
         this.partitionAssignmentStrategy = partitionAssignmentStrategy
     }
 
+    fun autoCommitInterval(autoCommitInterval: String) = apply {
+        this.customConfig = customConfig.plus(Pair(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitInterval))
+    }
+
+    fun enableAutoCommit(enableAutoCommit: Boolean) = apply {
+        this.customConfig = customConfig.plus(Pair(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit.toString()))
+    }
+
     fun addCustomConfig(key: String, value: String) = apply {
         this.customConfig = customConfig.plus(Pair(key, value))
     }

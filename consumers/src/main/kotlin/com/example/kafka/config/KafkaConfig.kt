@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.consumer.RangeAssignor
 import org.apache.kafka.common.serialization.StringDeserializer
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 class KafkaConfig {
     fun simpleConsumer(
@@ -13,7 +14,9 @@ class KafkaConfig {
         heartBeatInterval: Duration? = null,
         sessionTimeout: Duration? = null,
         maxPollInterval: Duration? = null,
-        partitionAssignmentStrategy: String = RangeAssignor::class.java.name
+        partitionAssignmentStrategy: String = RangeAssignor::class.java.name,
+        autoCommitInterval: Duration = 5.seconds,
+        enableAutoCommit: Boolean = true
     ) : KafkaConsumer<String, String> {
         val props = PropertiesBuilder()
             .bootStrapServer(BOOTSTRAP_SERVERS)
@@ -21,6 +24,8 @@ class KafkaConfig {
             .valueDeserializerClass(StringDeserializer::class.java.name)
             .groupIdConfig(groupId)
             .partitionAssignmentStrategy(partitionAssignmentStrategy)
+            .autoCommitInterval(autoCommitInterval.inWholeMilliseconds.toString())
+            .enableAutoCommit(enableAutoCommit)
             .apply {
                 staticInstanceId?.let {
                     groupInstanceIdConfig(it)
