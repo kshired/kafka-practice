@@ -4,7 +4,7 @@ import com.practice.kafka.producer.Producer
 import org.apache.kafka.clients.producer.KafkaProducer
 
 class FileEventHandler(
-    private val kafkaProducer: KafkaProducer<String, String>,
+    kafkaProducer: KafkaProducer<String, String>,
     private val topic: String,
     private val sync: Boolean
 ) : Producer<String, String>(kafkaProducer), EventHandler {

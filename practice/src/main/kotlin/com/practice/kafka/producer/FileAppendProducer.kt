@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class FileAppendProducer(
     private val kafkaProducer: KafkaProducer<String, String>
-) : Producer<String, String>(kafkaProducer) {
+) {
     private val logger = KotlinLogging.logger {}
 
     fun produce() {
