@@ -16,4 +16,14 @@ fun main() {
         )
     )
     fileToDbConsumer.consume(listOf("file-append-topic"))
+
+    val fileToDbDeserializeConsumer = FileToDbDeserializeConsumer(
+        KafkaConfig().orderDeserializerConsumer(),
+        OrderRepositoryImpl(
+            username = "testuser",
+            password = "test123!@#",
+            url = "jdbc:postgresql://192.168.56.101:5432/postgres"
+        )
+    )
+    fileToDbDeserializeConsumer.consume(listOf("file-append-serialize-topic"))
 }
