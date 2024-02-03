@@ -4,7 +4,6 @@ import com.practice.spring.kafka.event.OrderEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
@@ -24,7 +23,7 @@ class KafkaConsumerConfig(
 
     @Bean
     fun orderEventContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, OrderEvent> {
-        val deserializer = JsonDeserializer<OrderEvent>()
+        val deserializer = JsonDeserializer(OrderEvent::class.java)
         deserializer.addTrustedPackages("*")
         deserializer.setRemoveTypeHeaders(false)
         deserializer.setUseTypeMapperForKey(true)
@@ -40,19 +39,19 @@ class KafkaConsumerConfig(
     fun kafkaAdmin(): KafkaAdmin? = null
 
     private fun <T> consumerFactory(deserializer: JsonDeserializer<T>): ConsumerFactory<String, T> {
+        val errorHandlingKeyDeserializer = ErrorHandlingDeserializer(StringDeserializer())
+        val errorHandlingValueDeserializer = ErrorHandlingDeserializer(deserializer)
+
         val config = mapOf(
-            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaConfigProperties.bootstrapServers,
-            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
-            ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS to StringSerializer::class.java,
-            ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS to deserializer::class.java,
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaConfigProperties.bootstrapServers
         )
-        return DefaultKafkaConsumerFactory(config, StringDeserializer(), deserializer)
+
+        return DefaultKafkaConsumerFactory(config, errorHandlingKeyDeserializer, errorHandlingValueDeserializer)
     }
 
     private fun errorHandler(): DefaultErrorHandler {
-        return DefaultErrorHandler({ record, execption ->
-            logger.error(execption) { "Error occurred while processing: ${record.value()}" }
+        return DefaultErrorHandler({ record, exception ->
+            logger.error(exception) { "Error occurred while processing: ${record.value()}" }
         }, FixedBackOff(1000, 2))
     }
 }
