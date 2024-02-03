@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/producers" />
             <option value="$PROJECT_DIR$/spring" />
             <option value="$PROJECT_DIR$/spring/api" />
+            <option value="$PROJECT_DIR$/spring/consumer" />
             <option value="$PROJECT_DIR$/spring/kafka" />
           </set>
         </option>

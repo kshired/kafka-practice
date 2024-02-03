@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: spring-kafka-consumer
+  config:
+    import:
+      - kafka.yaml
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.default_batch_fetch_size: 100
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.56.101:5432/postgres
+    username: testuser
+    password: test123!@#
