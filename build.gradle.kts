@@ -2,6 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
+    kotlin("kapt")
+    kotlin("plugin.spring") apply false
+    id("org.springframework.boot") apply false
+    id("io.spring.dependency-management")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -20,11 +24,21 @@ allprojects {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.kapt")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudDependenciesVersion")}")
+        }
+    }
 
     dependencies {
-        implementation("org.apache.kafka:kafka-clients:${property("kafkaClientsVersion")}")
-        implementation("org.slf4j:slf4j-simple:${property("slf4jVersion")}")
         implementation("io.github.oshai:kotlin-logging-jvm:${property("kotlinLoggingVersion")}")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        kapt("org.springframework.boot:spring-boot-configuration-processor")
     }
 
     tasks.getByName("jar") {

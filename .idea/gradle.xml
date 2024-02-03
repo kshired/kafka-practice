@@ -12,6 +12,9 @@
             <option value="$PROJECT_DIR$/consumers" />
             <option value="$PROJECT_DIR$/practice" />
             <option value="$PROJECT_DIR$/producers" />
+            <option value="$PROJECT_DIR$/spring" />
+            <option value="$PROJECT_DIR$/spring/api" />
+            <option value="$PROJECT_DIR$/spring/kafka" />
           </set>
         </option>
       </GradleProjectSettings>

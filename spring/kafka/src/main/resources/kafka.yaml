@@ -1,0 +1,4 @@
+kafka:
+  topics:
+    order-topic: order-topic
+  bootstrap-servers: 192.168.56.101:9092
