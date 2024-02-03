@@ -9,5 +9,5 @@ data class OrderEvent(
     val userName: String,
     val phoneNumber: String,
     val address: String,
-    val localDateTime: LocalDateTime
+    val orderTime: LocalDateTime
 )
