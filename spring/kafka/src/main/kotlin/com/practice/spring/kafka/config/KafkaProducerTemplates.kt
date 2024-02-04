@@ -11,8 +11,8 @@ import org.springframework.kafka.core.ProducerFactory
 class KafkaProducerTemplates {
     @Bean
     fun orderKafkaTemplate(
-        @Qualifier("defaultProducerFactory") producerFactory: ProducerFactory<String, OrderEvent>
+        defaultProducerFactory: ProducerFactory<String, OrderEvent>
     ): KafkaTemplate<String, OrderEvent> {
-        return KafkaTemplate(producerFactory)
+        return KafkaTemplate(defaultProducerFactory)
     }
 }
